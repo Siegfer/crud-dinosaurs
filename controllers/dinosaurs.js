@@ -1,5 +1,4 @@
 const express = require('express')
-const app = express()
 const router = express.Router()
 
 const ejsLayouts = require('express-ejs-layouts')
@@ -8,7 +7,7 @@ const fs = require('fs')
 
 //lists all dinosaurs
 
-router.get('/', function (req, res) {
+router.get('/', (req, res) => {
 	console.log('DINO LAND')
 	let dinosaurs = fs.readFileSync('./dinosaurs.json')
 	let dinoData = JSON.parse(dinosaurs)
@@ -85,14 +84,14 @@ router.get('/:idx', (req, res) => {
 
 //adding DELETE route
 router.delete('/:idx', (req, res) => {
-	let dinosaurs = fs.readFileSync('./dinosaurs.json')
-	let dinoData = JSON.parse(dinosaurs)
+	const dinosaurs = fs.readFileSync('./dinosaurs.json')
+	const dinoData = JSON.parse(dinosaurs)
 
 	// remove the deleted dinosaur from the dinosaurs array
 	dinoData.splice(req.params.idx, 1)
 
 	// save the new dinosaurs to the data.json file
-	fs.writeFileSync('/dinosaurs.json', JSON.stringify(dinoData))
+	fs.writeFileSync('./dinosaurs.json', JSON.stringify(dinoData))
 
 	//redirect to the GET /dinosaurs route (index)
 	res.redirect('/dinosaurs')
