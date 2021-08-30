@@ -1,17 +1,8 @@
 const express = require('express')
-const app = express()
-const ejsLayouts = require('express-ejs-layouts')
-const methodOverride = require('method-override')
-const fs = require('fs')
-const PORT = process.env.PORT || 8000
-
-app.use(methodOverride('_method'))
-app.set('view engine', 'ejs')
-//body-parser middleware
-app.use(express.urlencoded({ extended: false }))
+const router = express.Router()
 
 //lists all dinosaurs
-app.get('/dinosaurs', (req, res) => {
+router.get('/dinosaurs', (req, res) => {
 	const dinosaurs = fs.readFileSync('./dinosaurs.json')
 	const dinoData = JSON.parse(dinosaurs)
 
@@ -27,17 +18,17 @@ app.get('/dinosaurs', (req, res) => {
 })
 
 //get new dino
-app.get('/dinosaurs/new', (req, res) => {
+router.get('/dinosaurs/new', (req, res) => {
 	res.render('dinosaurs/new')
 })
 
 //POST route
-app.post('/dinosaurs', (req, res) => {
+router.post('/dinosaurs', (req, res) => {
 	console.log(req.body)
 })
 
 //POST dino stuff
-app.post('/dinosaurs', (req, res) => {
+router.post('/dinosaurs', (req, res) => {
 	const dinosaurs = fs.readFileSync('./dinosaurs.json')
 	dinosaurs = JSON.parse(dinosaurs)
 
@@ -54,7 +45,7 @@ app.post('/dinosaurs', (req, res) => {
 // DELETE & PUT
 
 //adding edit route
-app.get('/dinosaurs/edit/:idx', (req, res) => {
+router.get('/dinosaurs/edit/:idx', (req, res) => {
 	const dinosaurs = fs.readFileSync('./dinosaurs.json')
 	const dinoData = JSON.parse(dinosaurs)
 	res.render('dinosaurs/edit', {
@@ -64,7 +55,7 @@ app.get('/dinosaurs/edit/:idx', (req, res) => {
 })
 
 //adding PUT route
-app.put('/dinosaurs/:idx', (req, res) => {
+router.put('/dinosaurs/:idx', (req, res) => {
 	const dinosaurs = fs.readFileSync('./dinosaurs.json')
 	const dinoData = JSON.parse(dinosaurs)
 
@@ -78,7 +69,7 @@ app.put('/dinosaurs/:idx', (req, res) => {
 })
 
 //express show route for dinosaurs (list one dinosaur)
-app.get('/dinosaurs/:idx', (req, res) => {
+router.get('/dinosaurs/:idx', (req, res) => {
 	// get dinosaurs
 	const dinosaurs = fs.readFileSync('./dinosaurs.json')
 	const dinoData = JSON.parse(dinosaurs)
@@ -91,7 +82,7 @@ app.get('/dinosaurs/:idx', (req, res) => {
 })
 
 //adding DELETE route
-app.delete('/dinosaurs/:idx', (req, res) => {
+router.delete('/dinosaurs/:idx', (req, res) => {
 	const dinosaurs = fs.readFileSync('./dinosaurs.json')
 	const dinoData = JSON.parse(dinosaurs)
 
@@ -105,12 +96,4 @@ app.delete('/dinosaurs/:idx', (req, res) => {
 	res.redirect('/dinosaurs')
 })
 
-app.use('/dinosaurs', require('./controllers/dinosaurs'))
-app.use(
-	'/prehistoric_creatures',
-	require('./controllers/prehistoric_creatures')
-)
-
-app.listen(PORT, () => {
-	console.log('Sever listening on PORT', PORT)
-})
+module.export = router
