@@ -1,9 +1,14 @@
 const express = require('express')
+const app = express()
 const router = express.Router()
 
+const ejsLayouts = require('express-ejs-layouts')
+const methodOverride = require('method-override')
+const fs = require('fs')
+
 //lists all dinosaurs
-router.get('/dinosaurs', (req, res) => {
-	const dinosaurs = fs.readFileSync('./dinosaurs.json')
+router.get('/', (req, res) => {
+	const dinosaurs = fs.readFileSync('./prehistoric_creatures.json')
 	const dinoData = JSON.parse(dinosaurs)
 
 	const nameFilter = req.query.nameFilter
@@ -14,21 +19,16 @@ router.get('/dinosaurs', (req, res) => {
 		})
 	}
 
-	res.render('dinosaurs/index', { myDinos: dinoData })
+	res.render('prehistoric_creatures/index', { myDinos: dinoData })
 })
 
 //get new dino
-router.get('/dinosaurs/new', (req, res) => {
-	res.render('dinosaurs/new')
-})
-
-//POST route
-router.post('/dinosaurs', (req, res) => {
-	console.log(req.body)
+router.get('/new', (req, res) => {
+	res.render('/prehistoric_creatures/new')
 })
 
 //POST dino stuff
-router.post('/dinosaurs', (req, res) => {
+router.post('/', (req, res) => {
 	const dinosaurs = fs.readFileSync('./dinosaurs.json')
 	dinosaurs = JSON.parse(dinosaurs)
 
@@ -36,27 +36,27 @@ router.post('/dinosaurs', (req, res) => {
 	dinosaurs.push(req.body)
 
 	// save dinosaurs to the data.json file
-	fs.writeFileSync('./dinosaurs.json', JSON.stringify(dinosaurs))
+	fs.writeFileSync('./prehistoric_creatures.json', JSON.stringify(dinosaurs))
 
 	// redirect to the GET /dinosaurs route (index)
-	res.redirect('/dinosaurs')
+	res.redirect('/prehistoric_creatures')
 })
 
 // DELETE & PUT
 
 //adding edit route
-router.get('/dinosaurs/edit/:idx', (req, res) => {
-	const dinosaurs = fs.readFileSync('./dinosaurs.json')
+router.get('/edit/:idx', (req, res) => {
+	const dinosaurs = fs.readFileSync('./prehistoric_creatures.json')
 	const dinoData = JSON.parse(dinosaurs)
-	res.render('dinosaurs/edit', {
+	res.render('prehistoric_creatures/edit', {
 		dino: dinoData[req.params.idx],
 		dinoId: req.params.idx
 	})
 })
 
 //adding PUT route
-router.put('/dinosaurs/:idx', (req, res) => {
-	const dinosaurs = fs.readFileSync('./dinosaurs.json')
+router.put('/:idx', (req, res) => {
+	const dinosaurs = fs.readFileSync('./prehistoric_creatures.json')
 	const dinoData = JSON.parse(dinosaurs)
 
 	//re-assign the name and type fields of the dinosaur to be editted
@@ -64,36 +64,36 @@ router.put('/dinosaurs/:idx', (req, res) => {
 	dinoData[req.params.idx].type = req.body.type
 
 	//save the editted dinosaurs to the data.json file
-	fs.writeFileSync('./dinosaurs.json', JSON.stringify(dinoData))
-	res.redirect('/dinosaurs')
+	fs.writeFileSync('./prehistoric_creatures.json', JSON.stringify(dinoData))
+	res.redirect('/prehistoric_creatures')
 })
 
 //express show route for dinosaurs (list one dinosaur)
-router.get('/dinosaurs/:idx', (req, res) => {
+router.get('/:idx', (req, res) => {
 	// get dinosaurs
-	const dinosaurs = fs.readFileSync('./dinosaurs.json')
+	const dinosaurs = fs.readFileSync('./prehistoric_creatures.json')
 	const dinoData = JSON.parse(dinosaurs)
 
 	//get array index from url parameter
 	const dinoIndex = parseInt(req.params.idx)
 
 	//render page with data of the specified animal
-	res.render('dinosaurs/show', { myDino: dinoData[dinoIndex] })
+	res.render('prehistoric_creatures/show', { myDino: dinoData[dinoIndex] })
 })
 
 //adding DELETE route
-router.delete('/dinosaurs/:idx', (req, res) => {
-	const dinosaurs = fs.readFileSync('./dinosaurs.json')
+router.delete('/:idx', (req, res) => {
+	const dinosaurs = fs.readFileSync('./prehistoric_creatures.json')
 	const dinoData = JSON.parse(dinosaurs)
 
 	// remove the deleted dinosaur from the dinosaurs array
 	dinoData.splice(req.params.idx, 1)
 
 	// save the new dinosaurs to the data.json file
-	fs.writeFileSync('/dinosaurs.json', JSON.stringify(dinoData))
+	fs.writeFileSync('/prehistoric_creatures.json', JSON.stringify(dinoData))
 
 	//redirect to the GET /dinosaurs route (index)
-	res.redirect('/dinosaurs')
+	res.redirect('/prehistoric_creatures')
 })
 
-module.export = router
+module.exports = router

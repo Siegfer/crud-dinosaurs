@@ -1,8 +1,13 @@
 const express = require('express')
+const app = express()
 const router = express.Router()
 
+const ejsLayouts = require('express-ejs-layouts')
+const methodOverride = require('method-override')
+const fs = require('fs')
+
 //lists all dinosaurs
-router.get('/dinosaurs', (req, res) => {
+router.get('/', (req, res) => {
 	const dinosaurs = fs.readFileSync('./dinosaurs.json')
 	const dinoData = JSON.parse(dinosaurs)
 
@@ -18,17 +23,12 @@ router.get('/dinosaurs', (req, res) => {
 })
 
 //get new dino
-router.get('/dinosaurs/new', (req, res) => {
+router.get('/new', (req, res) => {
 	res.render('dinosaurs/new')
 })
 
-//POST route
-router.post('/dinosaurs', (req, res) => {
-	console.log(req.body)
-})
-
 //POST dino stuff
-router.post('/dinosaurs', (req, res) => {
+router.post('/', (req, res) => {
 	const dinosaurs = fs.readFileSync('./dinosaurs.json')
 	dinosaurs = JSON.parse(dinosaurs)
 
@@ -45,7 +45,7 @@ router.post('/dinosaurs', (req, res) => {
 // DELETE & PUT
 
 //adding edit route
-router.get('/dinosaurs/edit/:idx', (req, res) => {
+router.get('/edit/:idx', (req, res) => {
 	const dinosaurs = fs.readFileSync('./dinosaurs.json')
 	const dinoData = JSON.parse(dinosaurs)
 	res.render('dinosaurs/edit', {
@@ -55,7 +55,7 @@ router.get('/dinosaurs/edit/:idx', (req, res) => {
 })
 
 //adding PUT route
-router.put('/dinosaurs/:idx', (req, res) => {
+router.put('/:idx', (req, res) => {
 	const dinosaurs = fs.readFileSync('./dinosaurs.json')
 	const dinoData = JSON.parse(dinosaurs)
 
@@ -69,7 +69,7 @@ router.put('/dinosaurs/:idx', (req, res) => {
 })
 
 //express show route for dinosaurs (list one dinosaur)
-router.get('/dinosaurs/:idx', (req, res) => {
+router.get('/:idx', (req, res) => {
 	// get dinosaurs
 	const dinosaurs = fs.readFileSync('./dinosaurs.json')
 	const dinoData = JSON.parse(dinosaurs)
@@ -82,7 +82,7 @@ router.get('/dinosaurs/:idx', (req, res) => {
 })
 
 //adding DELETE route
-router.delete('/dinosaurs/:idx', (req, res) => {
+router.delete('/:idx', (req, res) => {
 	const dinosaurs = fs.readFileSync('./dinosaurs.json')
 	const dinoData = JSON.parse(dinosaurs)
 
@@ -96,4 +96,4 @@ router.delete('/dinosaurs/:idx', (req, res) => {
 	res.redirect('/dinosaurs')
 })
 
-module.export = router
+module.exports = router
