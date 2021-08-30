@@ -1,7 +1,23 @@
-<ul>
-    <% myDinos.forEach(function(dino) { %>
-        <li>
-            <%= dino.name %> is a <%= dino.type %>
-        </li>
-        <% }); %>
-</ul>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Index stuff</title>
+</head>
+<body>
+    <form method="GET" action="/dinosaurs">
+        <label for="nameFilter">Filter by Name</label>
+        <input id="nameFilter" type="text" name="nameFilter">
+        <input type="submit">
+    </form>
+    <ul>
+        <% myDinos.forEach(function(dino) { %>
+            <li>
+                <%= dino.name %> is a <%= dino.type %>
+                <form method="POST" action="/dinosaurs/ <%= index %>/?_method=DELETE">
+                    <input type="submit" value="Delete">
+                </form>
+            </li>
+            <% }); %>
+    </ul>
+</body>
+</html>
