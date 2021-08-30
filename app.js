@@ -4,6 +4,8 @@ const app = express()
 const ejsLayouts = require('express-ejs-layouts')
 const methodOverride = require('method-override')
 const fs = require('fs')
+app.use(methodOverride('_method'))
+app.use(express.urlencoded({ extended: false }))
 
 // PORT
 const PORT = process.env.PORT || 3000
@@ -19,8 +21,6 @@ app.use(
 	'/prehistoric_creatures',
 	require('./controllers/prehistoric_creatures')
 )
-app.use(express.urlencoded({ extended: false }))
-app.use(methodOverride('_method'))
 
 //DEFAULT routing testing
 app.get('/test', (req, res) => res.send('server is running'))

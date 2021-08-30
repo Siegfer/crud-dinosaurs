@@ -9,7 +9,7 @@ const fs = require('fs')
 //lists all dinosaurs
 
 router.get('/', function (req, res) {
-	console.log('You finally made it in')
+	console.log('DINO LAND')
 	let dinosaurs = fs.readFileSync('./dinosaurs.json')
 	let dinoData = JSON.parse(dinosaurs)
 
@@ -31,7 +31,7 @@ router.get('/new', (req, res) => {
 
 //POST dino stuff
 router.post('/', (req, res) => {
-	const dinosaurs = fs.readFileSync('./dinosaurs.json')
+	let dinosaurs = fs.readFileSync('./dinosaurs.json')
 	dinosaurs = JSON.parse(dinosaurs)
 
 	// add item to dinosaurs array
@@ -48,8 +48,8 @@ router.post('/', (req, res) => {
 
 //adding edit route
 router.get('/edit/:idx', (req, res) => {
-	const dinosaurs = fs.readFileSync('./dinosaurs.json')
-	const dinoData = JSON.parse(dinosaurs)
+	let dinosaurs = fs.readFileSync('./dinosaurs.json')
+	let dinoData = JSON.parse(dinosaurs)
 	res.render('dinosaurs/edit', {
 		dino: dinoData[req.params.idx],
 		dinoId: req.params.idx
@@ -58,8 +58,8 @@ router.get('/edit/:idx', (req, res) => {
 
 //adding PUT route
 router.put('/:idx', (req, res) => {
-	const dinosaurs = fs.readFileSync('./dinosaurs.json')
-	const dinoData = JSON.parse(dinosaurs)
+	let dinosaurs = fs.readFileSync('./dinosaurs.json')
+	let dinoData = JSON.parse(dinosaurs)
 
 	//re-assign the name and type fields of the dinosaur to be editted
 	dinoData[req.params.idx].name = req.body.name
@@ -73,11 +73,11 @@ router.put('/:idx', (req, res) => {
 //express show route for dinosaurs (list one dinosaur)
 router.get('/:idx', (req, res) => {
 	// get dinosaurs
-	const dinosaurs = fs.readFileSync('./dinosaurs.json')
-	const dinoData = JSON.parse(dinosaurs)
+	let dinosaurs = fs.readFileSync('./dinosaurs.json')
+	let dinoData = JSON.parse(dinosaurs)
 
 	//get array index from url parameter
-	const dinoIndex = parseInt(req.params.idx)
+	let dinoIndex = parseInt(req.params.idx)
 
 	//render page with data of the specified animal
 	res.render('dinosaurs/show', { myDino: dinoData[dinoIndex] })
@@ -85,8 +85,8 @@ router.get('/:idx', (req, res) => {
 
 //adding DELETE route
 router.delete('/:idx', (req, res) => {
-	const dinosaurs = fs.readFileSync('./dinosaurs.json')
-	const dinoData = JSON.parse(dinosaurs)
+	let dinosaurs = fs.readFileSync('./dinosaurs.json')
+	let dinoData = JSON.parse(dinosaurs)
 
 	// remove the deleted dinosaur from the dinosaurs array
 	dinoData.splice(req.params.idx, 1)

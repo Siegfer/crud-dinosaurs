@@ -19,7 +19,8 @@
     <ul>
         <% myDinos.forEach(function(dino, index) { %>
             <li>
-                <%= dino.name %> is a <%= dino.type %>
+                <image src="<%= dino.img_url %>"
+                 This is a <%= dino.type %>
                         <a href="/prehistoric_creatures/edit/<%= index %>">Edit</a>
                         <form method="POST" action="/prehistoric_creatures/<%= index %>/?_method=DELETE">
                             <input type="submit" value="Delete">

@@ -8,6 +8,7 @@ const fs = require('fs')
 
 //lists all dinosaurs
 router.get('/', (req, res) => {
+	console.log('OTHER DINO LAND')
 	const dinosaurs = fs.readFileSync('./prehistoric_creatures.json')
 	const dinoData = JSON.parse(dinosaurs)
 
@@ -15,7 +16,7 @@ router.get('/', (req, res) => {
 
 	if (nameFilter) {
 		dinoData = dinoData.filter((dino) => {
-			return dino.name.toLowerCase() === nameFilter.toLowerCase()
+			return dino.type.toLowerCase() === nameFilter.toLowerCase()
 		})
 	}
 
@@ -29,7 +30,7 @@ router.get('/new', (req, res) => {
 
 //POST dino stuff
 router.post('/', (req, res) => {
-	const dinosaurs = fs.readFileSync('./dinosaurs.json')
+	const dinosaurs = fs.readFileSync('./prehistoric_creatures.json')
 	dinosaurs = JSON.parse(dinosaurs)
 
 	// add item to dinosaurs array
