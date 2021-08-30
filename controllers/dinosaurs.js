@@ -7,14 +7,16 @@ const methodOverride = require('method-override')
 const fs = require('fs')
 
 //lists all dinosaurs
-router.get('/', (req, res) => {
-	const dinosaurs = fs.readFileSync('./dinosaurs.json')
-	const dinoData = JSON.parse(dinosaurs)
 
-	const nameFilter = req.query.nameFilter
+router.get('/', function (req, res) {
+	console.log('You finally made it in')
+	let dinosaurs = fs.readFileSync('./dinosaurs.json')
+	let dinoData = JSON.parse(dinosaurs)
+
+	let nameFilter = req.query.nameFilter
 
 	if (nameFilter) {
-		dinoData = dinoData.filter((dino) => {
+		dinoData = dinoData.filter(function (dino) {
 			return dino.name.toLowerCase() === nameFilter.toLowerCase()
 		})
 	}
