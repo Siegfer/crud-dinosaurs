@@ -3,7 +3,6 @@ const express = require('express')
 const app = express()
 const ejsLayouts = require('express-ejs-layouts')
 const methodOverride = require('method-override')
-const fs = require('fs')
 
 // PORT
 const PORT = process.env.PORT || 3000
@@ -11,10 +10,8 @@ const PORT = process.env.PORT || 3000
 // controllers
 app.set('view engine', 'ejs')
 app.use(ejsLayouts)
-app.use(express.urlencoded({ extended: false }))
 app.use(methodOverride('_method'))
-// const dinosaurs = require('./controllers/dinosaurs')
-// const prehistoric_creatures = require('./controllers/prehistoric_creatures')
+app.use(express.urlencoded({ extended: false }))
 
 //Middleware
 app.use('/dinosaurs', require('./controllers/dinosaurs'))

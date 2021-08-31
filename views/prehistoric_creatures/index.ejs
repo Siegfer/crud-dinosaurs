@@ -17,10 +17,10 @@
 
 
     <ul>
-        <% myDinos.forEach(function(dino, index) { %>
+        <% myDinos.forEach(function(creature, index) { %>
             <li>
-                <image src="<%= dino.img_url %>" width="=400" height="200"></image>
-                 This is a <%= dino.type %>
+                <image src="<%= creature.img_url %>" width="=400" height="200"></image>
+                 This is a <%= creature.type %>
                         <a href="/prehistoric_creatures/edit/<%= index %>">Edit</a>
                         <form method="POST" action="/prehistoric_creatures/<%= index %>/?_method=DELETE">
                             <input type="submit" value="Delete">

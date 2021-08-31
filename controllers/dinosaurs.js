@@ -1,12 +1,9 @@
 const express = require('express')
 const router = express.Router()
-
-const ejsLayouts = require('express-ejs-layouts')
-const methodOverride = require('method-override')
 const fs = require('fs')
 
+//GET routes
 //lists all dinosaurs
-
 router.get('/', (req, res) => {
 	console.log('DINO LAND')
 	let dinosaurs = fs.readFileSync('./dinosaurs.json')
@@ -23,12 +20,14 @@ router.get('/', (req, res) => {
 	res.render('dinosaurs/index', { myDinos: dinoData })
 })
 
-//get new dino
+//ADD new dino
+// this /new need to be before /:idx
+// route to the form
 router.get('/new', (req, res) => {
 	res.render('dinosaurs/new')
 })
 
-//POST dino stuff
+//POST routes
 router.post('/', (req, res) => {
 	let dinosaurs = fs.readFileSync('./dinosaurs.json')
 	dinosaurs = JSON.parse(dinosaurs)
@@ -42,8 +41,6 @@ router.post('/', (req, res) => {
 	// redirect to the GET /dinosaurs route (index)
 	res.redirect('/dinosaurs')
 })
-
-// DELETE & PUT
 
 //adding edit route
 router.get('/edit/:idx', (req, res) => {
