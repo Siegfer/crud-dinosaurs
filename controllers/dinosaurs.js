@@ -60,8 +60,8 @@ router.put('/:idx', (req, res) => {
 	//re-assign the name and type fields of the dinosaur to be editted
 	dinoData[req.params.idx].name = req.body.name
 	dinoData[req.params.idx].type = req.body.type
-
 	//save the editted dinosaurs to the data.json file
+	console.log(dinoData)
 	fs.writeFileSync('./dinosaurs.json', JSON.stringify(dinoData))
 	res.redirect('/dinosaurs')
 })
